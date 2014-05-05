@@ -1,0 +1,60 @@
+CREATE DATABASE `dawgdash`;
+
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `email` varchar(32) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `default_address` varchar(64) NOT NULL DEFAULT 'N/A',
+  `transportation` int(11) NOT NULL DEFAULT '0',
+  `role` varchar(8) NOT NULL DEFAULT 'worker',
+  `pending_deliveries` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `deliveries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `worker_id` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pickup_time` int(11) NOT NULL,
+  `instructions` varchar(64) NOT NULL DEFAULT 'none',
+  `description` varchar(64) NOT NULL,
+  `worker_comments` varchar(64) NOT NULL DEFAULT 'none',
+  `status` varchar(16) NOT NULL DEFAULT 'pending',
+  `price` int(11) NOT NULL,
+  `pickup_address` varchar(64) NOT NULL,
+  `destination_address` varchar(64) NOT NULL,
+  `transportation` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  KEY `customer_id` (`id`),
+  KEY `worker_id` (`id`),
+  KEY `customer_id_idx` (`customer_id`),
+  KEY `worker_id_idx` (`worker_id`),
+  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `worker_id` FOREIGN KEY (`worker_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `schedules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `worker_id` int(11) NOT NULL,
+  `sunday_start` int(11) NOT NULL DEFAULT '0',
+  `sunday_end` int(11) NOT NULL DEFAULT '0',
+  `monday_start` int(11) NOT NULL DEFAULT '0',
+  `monday_end` int(11) NOT NULL DEFAULT '0',
+  `tuesday_start` int(11) NOT NULL DEFAULT '0',
+  `tuesday_end` int(11) NOT NULL DEFAULT '0',
+  `wednesday_start` int(11) NOT NULL DEFAULT '0',
+  `wednesday_end` int(11) NOT NULL DEFAULT '0',
+  `thursday_start` int(11) NOT NULL DEFAULT '0',
+  `thursday_end` int(11) NOT NULL DEFAULT '0',
+  `friday_start` int(11) NOT NULL DEFAULT '0',
+  `friday_end` int(11) NOT NULL DEFAULT '0',
+  `saturday_start` int(11) NOT NULL DEFAULT '0',
+  `saturday_end` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id` (`worker_id`),
+  CONSTRAINT `id` FOREIGN KEY (`worker_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
